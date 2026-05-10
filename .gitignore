@@ -1,0 +1,21 @@
+# Android and Gradle build outputs.
+.gradle/
+build/
+*/build/
+local.properties
+
+# Signing material must stay local.
+*.jks
+*.keystore
+keystore.properties
+
+# IDE and OS noise.
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Isolated agent worktrees, if used later.
+.worktrees/
+worktrees/
+
