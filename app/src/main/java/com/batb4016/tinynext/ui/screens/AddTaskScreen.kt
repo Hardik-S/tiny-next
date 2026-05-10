@@ -34,15 +34,19 @@ import com.batb4016.tinynext.ui.model.CategoryUiModel
 fun AddTaskScreen(
     categories: List<CategoryUiModel>,
     initialTitle: String = "",
+    initialCategoryId: String? = null,
+    initialEstimateMinutes: Int = 5,
+    initialStarred: Boolean = false,
+    initialRecurrence: String = "NONE",
     onSave: (title: String, categoryId: String, estimateMinutes: Int, starred: Boolean, recurrence: String) -> Unit,
     onCancel: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var title by remember { mutableStateOf(initialTitle.take(120)) }
-    var selectedCategoryId by remember(categories) { mutableStateOf(categories.firstOrNull()?.id.orEmpty()) }
-    var selectedEstimate by remember { mutableIntStateOf(5) }
-    var starred by remember { mutableStateOf(false) }
-    var recurrence by remember { mutableStateOf("NONE") }
+    var selectedCategoryId by remember(categories, initialCategoryId) { mutableStateOf(initialCategoryId ?: categories.firstOrNull()?.id.orEmpty()) }
+    var selectedEstimate by remember { mutableIntStateOf(initialEstimateMinutes) }
+    var starred by remember { mutableStateOf(initialStarred) }
+    var recurrence by remember { mutableStateOf(initialRecurrence) }
 
     Column(
         modifier = modifier
@@ -50,7 +54,7 @@ fun AddTaskScreen(
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(18.dp)
     ) {
-        Text("Add Task", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+        Text(if (initialTitle.isBlank()) "Add Task" else "Edit Task", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
         OutlinedTextField(
             value = title,
             onValueChange = { title = it.take(120) },

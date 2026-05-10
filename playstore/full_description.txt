@@ -1,0 +1,15 @@
+Tiny Next is a simple task picker for people who know they need to do something, but feel stuck choosing what to do first.
+
+Add small tasks, tap ‘Pick My Next Task,’ and Tiny Next chooses one useful next action. Mark it done, skip it, snooze it, or ask for another.
+
+Tiny Next is not a heavy planner. It is a tiny decision helper for daily momentum.
+
+Features:
+• Add quick tasks and routines
+• Pick one next task with a tap
+• Organize tasks by simple categories
+• Mark tasks done, skipped, or snoozed
+• Track completed tasks and streaks
+• Works without an account
+• Stores tasks locally on your device
+• Optional $2.99 premium upgrade removes ads

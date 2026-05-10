@@ -15,17 +15,23 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.batb4016.tinynext.ui.model.CategoryUiModel
 import com.batb4016.tinynext.ui.model.TaskUiModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -36,15 +42,20 @@ fun TaskListScreen(
     onEdit: (String) -> Unit,
     onArchive: (String) -> Unit,
     onDelete: (String) -> Unit,
+    onUndoDelete: () -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var selectedCategory by remember { mutableStateOf<String?>(null) }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
     val filteredTasks = tasks.filter { selectedCategory == null || it.categoryName == selectedCategory }
 
+    Scaffold(snackbarHost = { SnackbarHost(snackbarHostState) }, modifier = modifier) { padding ->
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
+            .padding(padding)
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
@@ -71,12 +82,22 @@ fun TaskListScreen(
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             OutlinedButton(onClick = { onEdit(task.id) }) { Text("Edit") }
                             OutlinedButton(onClick = { onArchive(task.id) }) { Text("Archive") }
-                            OutlinedButton(onClick = { onDelete(task.id) }) { Text("Delete") }
+                            OutlinedButton(onClick = {
+                                onDelete(task.id)
+                                scope.launch {
+                                    val result = snackbarHostState.showSnackbar(
+                                        message = "Task deleted",
+                                        actionLabel = "Undo",
+                                    )
+                                    if (result == SnackbarResult.ActionPerformed) onUndoDelete()
+                                }
+                            }) { Text("Delete") }
                         }
                     }
                 }
             }
         }
         OutlinedButton(onClick = onBack, modifier = Modifier.fillMaxWidth()) { Text("Back") }
+    }
     }
 }
