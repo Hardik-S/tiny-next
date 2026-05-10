@@ -73,7 +73,15 @@ The MVP is designed to work without an account. Task data should stay on device 
 
 AdMob and Google Play Billing may process device, advertising, diagnostics, purchase, and app-interaction data according to Google's SDK behavior. The app should not log task titles, purchase tokens, advertising IDs, or other user-specific content.
 
-Draft Play Store privacy and data-safety notes live in `playstore/`.
+Play Store privacy and data-safety notes live in `playstore/`. The public privacy policy page source lives in `public/privacy/index.html` and is configured for Vercel through `vercel.json`.
+
+`BuildConfig.PRIVACY_POLICY_URL` is populated from `TINYNEXT_PRIVACY_POLICY_URL` and defaults to:
+
+```text
+https://tiny-next-vercel.vercel.app/privacy
+```
+
+Set `TINYNEXT_PRIVACY_POLICY_URL` before the final Play build if Vercel assigns a different production URL.
 
 ## Signing
 
@@ -124,3 +132,11 @@ Play Store draft assets are kept in `playstore/`:
 - `privacy_policy_draft.md`
 - `data_safety_notes.md`
 - `screenshot_plan.md`
+- `release_checklist.md`
+- `tester_feedback_log.md`
+
+## Google Play Launch Notes
+
+Before uploading to Play, complete the release checklist in `playstore/release_checklist.md`. Console-only steps such as creating the Play app, enrolling in Play App Signing, creating the `remove_ads_premium` product, entering Data Safety answers, and running the personal-account closed test cannot be completed from this repository alone.
+
+For a new personal Play developer account, plan for the closed testing gate: at least 12 testers must remain opted in for at least 14 continuous days before applying for production access. Keep tester notes in `playstore/tester_feedback_log.md` so the production-access answers are evidence-backed.

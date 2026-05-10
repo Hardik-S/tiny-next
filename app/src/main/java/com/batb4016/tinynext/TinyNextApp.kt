@@ -180,6 +180,7 @@ fun TinyNextApp(modifier: Modifier = Modifier) {
                     SettingsPrivacyScreen(
                         isPremium = state.premiumState.isPremium,
                         appVersion = BuildConfig.VERSION_NAME,
+                        privacyPolicyUrl = BuildConfig.PRIVACY_POLICY_URL,
                         onRestorePurchase = viewModel::restorePurchase,
                         onDeleteAllLocalData = viewModel::deleteAllLocalData,
                         onBack = { navController.popBackStack() },

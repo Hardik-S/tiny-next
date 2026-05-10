@@ -5,12 +5,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
@@ -18,14 +21,18 @@ import androidx.compose.ui.unit.dp
 fun SettingsPrivacyScreen(
     isPremium: Boolean,
     appVersion: String,
+    privacyPolicyUrl: String,
     onRestorePurchase: () -> Unit,
     onDeleteAllLocalData: () -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val uriHandler = LocalUriHandler.current
+
     Column(
         modifier = modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(18.dp)
     ) {
@@ -37,6 +44,12 @@ fun SettingsPrivacyScreen(
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         OutlinedButton(
+            onClick = { uriHandler.openUri(privacyPolicyUrl) },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Open privacy policy")
+        }
+        OutlinedButton(
             onClick = onDeleteAllLocalData,
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error)
@@ -47,4 +60,3 @@ fun SettingsPrivacyScreen(
         OutlinedButton(onClick = onBack, modifier = Modifier.fillMaxWidth()) { Text("Back") }
     }
 }
-

@@ -17,6 +17,9 @@ val localProperties = Properties().apply {
 fun secretOrProperty(name: String): String =
     providers.environmentVariable(name).orElse(localProperties.getProperty(name, "")).get()
 
+fun configOrProperty(name: String, defaultValue: String): String =
+    providers.environmentVariable(name).orElse(localProperties.getProperty(name, defaultValue)).get()
+
 android {
     namespace = "com.batb4016.tinynext"
     compileSdk = 36
@@ -32,7 +35,9 @@ android {
 
         val releaseBannerId = secretOrProperty("ADMOB_BANNER_AD_UNIT_ID")
         val releaseAppId = secretOrProperty("ADMOB_APP_ID")
+        val privacyPolicyUrl = configOrProperty("TINYNEXT_PRIVACY_POLICY_URL", "https://tiny-next-vercel.vercel.app/privacy")
         buildConfigField("String", "ADMOB_BANNER_AD_UNIT_ID", "\"$releaseBannerId\"")
+        buildConfigField("String", "PRIVACY_POLICY_URL", "\"$privacyPolicyUrl\"")
         manifestPlaceholders["admobApplicationId"] =
             releaseAppId.ifBlank { "ca-app-pub-3940256099942544~3347511713" }
     }
