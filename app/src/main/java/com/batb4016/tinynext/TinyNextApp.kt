@@ -135,7 +135,9 @@ fun TinyNextApp(modifier: Modifier = Modifier) {
                         task = currentTaskModel,
                         onDone = {
                             viewModel.doneCurrent()
-                            navController.navigate(Routes.Stats)
+                            navController.navigate(Routes.Stats) {
+                                popUpTo(Routes.Home) { inclusive = false }
+                            }
                         },
                         onSnooze = {
                             viewModel.snoozeCurrent()
@@ -154,7 +156,11 @@ fun TinyNextApp(modifier: Modifier = Modifier) {
                             viewModel.pickNext(TaskPickOutcome.PICKED)
                             navController.navigate(Routes.Result)
                         },
-                        onBack = { navController.popBackStack() },
+                        onBack = {
+                            navController.navigate(Routes.Home) {
+                                popUpTo(Routes.Home) { inclusive = true }
+                            }
+                        },
                         modifier = Modifier.fillMaxSize()
                     )
                 }
