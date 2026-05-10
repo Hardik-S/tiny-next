@@ -134,6 +134,9 @@ Play Store draft assets are kept in `playstore/`:
 - `screenshot_plan.md`
 - `release_checklist.md`
 - `tester_feedback_log.md`
+- `internal_release_notes.txt`
+- `release_artifact_manifest.md`
+- `play_console_submission_guide.md`
 
 ## Google Play Launch Notes
 
