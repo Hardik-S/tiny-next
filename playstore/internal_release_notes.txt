@@ -1,0 +1,3 @@
+Tiny Next 1.0.0 initial internal test build.
+
+Includes onboarding, local task creation/editing/deletion, weighted next-task picking, done/skip/snooze/another actions, basic stats, banner-ad placement for free users, one-time remove-ads premium flow, restore purchase, and settings/privacy controls.
